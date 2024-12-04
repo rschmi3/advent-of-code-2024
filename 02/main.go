@@ -8,26 +8,16 @@ import (
 	"strings"
 )
 
-func calculateValidReports(filename string) int {
+func calculateValidReports(scanner bufio.Scanner) (part1Count int, part2Count int) {
 
-	file, err := os.Open(filename)
-	if err != nil {
-		fmt.Println("Error opening file: ", err)
-		return -1
-	}
-
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-
-	var validCount int
 	for scanner.Scan() {
 		line := scanner.Text()
 
 		report := strings.Split(line, " ")
 
 		if isValid(report) {
-			validCount++
+			part1Count++
+			part2Count++
 
 		} else {
 			for i := range report {
@@ -35,15 +25,14 @@ func calculateValidReports(filename string) int {
 				removed = append(removed, report[0:i]...)
 				removed = append(removed, report[i+1:]...)
 				if isValid(removed) {
-					validCount++
+					part2Count++
 					break
 				}
 			}
 		}
-
 	}
 
-	return validCount
+	return
 }
 
 func isValid(report []string) bool {
@@ -89,5 +78,17 @@ func main() {
 
 	filename := os.Args[1]
 
-	fmt.Println(calculateValidReports(filename))
+	file, err := os.Open(filename)
+	if err != nil {
+		fmt.Println("Error opening file: ", err)
+		return
+	}
+
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+
+	part1, part2 := calculateValidReports(*scanner)
+	fmt.Println("Part 1:", part1)
+	fmt.Println("Part 2:", part2)
 }
