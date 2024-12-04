@@ -1,10 +1,10 @@
-package main
+package day1
 
 import (
 	"bufio"
 	"cmp"
 	"fmt"
-	"os"
+	"io/fs"
 	"regexp"
 	"slices"
 	"strconv"
@@ -15,18 +15,7 @@ func Insert[T cmp.Ordered](ts []T, t T) []T {
 	return slices.Insert(ts, i, t)
 }
 
-func ReadFile(filename string) ([]int, []int, error) {
-
-	file, err := os.Open(filename)
-
-	if err != nil {
-		fmt.Println("Error opening file: ", err)
-		return make([]int, 0), make([]int, 0), err
-	}
-
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
+func ReadData(scanner bufio.Scanner) ([]int, []int, error) {
 
 	var leftList []int
 	var rightList []int
@@ -85,11 +74,11 @@ func part2(leftList []int, rightList []int) int {
 	return totalSimilarity
 }
 
-func main() {
+func Run(file fs.File) {
 
-	filename := os.Args[1]
+	scanner := bufio.NewScanner(file)
 
-	leftList, rightList, err := ReadFile(filename)
+	leftList, rightList, err := ReadData(*scanner)
 
 	if err != nil {
 		return

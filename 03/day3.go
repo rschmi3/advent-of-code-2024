@@ -1,9 +1,9 @@
-package main
+package day3
 
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io/fs"
 	"regexp"
 	"strconv"
 )
@@ -67,17 +67,7 @@ func calculateSums(scanner bufio.Scanner) (part1Sum int, part2Sum int) {
 	return
 }
 
-func main() {
-
-	filename := os.Args[1]
-
-	file, err := os.Open(filename)
-	if err != nil {
-		fmt.Println("Error opening file: ", err)
-		return
-	}
-
-	defer file.Close()
+func Run(file fs.File) {
 
 	scanner := bufio.NewScanner(file)
 

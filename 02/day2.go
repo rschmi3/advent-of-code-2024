@@ -1,9 +1,9 @@
-package main
+package day2
 
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io/fs"
 	"strconv"
 	"strings"
 )
@@ -74,17 +74,7 @@ func isValid(report []string) bool {
 	return true
 }
 
-func main() {
-
-	filename := os.Args[1]
-
-	file, err := os.Open(filename)
-	if err != nil {
-		fmt.Println("Error opening file: ", err)
-		return
-	}
-
-	defer file.Close()
+func Run(file fs.File) {
 
 	scanner := bufio.NewScanner(file)
 
