@@ -89,6 +89,6 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	part1, part2 := calculateValidReports(*scanner)
-	fmt.Println("Part 1:", part1)
-	fmt.Println("Part 2:", part2)
+
+	fmt.Println(fmt.Sprintf("Day 2 Results: %d, %d", part1, part2))
 }
