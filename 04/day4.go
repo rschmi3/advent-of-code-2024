@@ -8,9 +8,9 @@ import (
 
 func part1(fileData []string) (total int) {
 
-	for i, v := range fileData {
-		for j := range len(v) {
-			if v[j] == 'X' {
+	for i, str := range fileData {
+		for j, letter := range str {
+			if letter == 'X' {
 				leftEnd := j - 3
 				rightEnd := j + 4
 				upEnd := i - 3
@@ -18,15 +18,15 @@ func part1(fileData []string) (total int) {
 
 				// Left SAMX
 				if leftEnd >= 0 {
-					candidate := v[leftEnd : j+1]
+					candidate := str[leftEnd : j+1]
 					if candidate == "SAMX" {
 						total++
 					}
 				}
 
 				// Right XMAS
-				if rightEnd <= len(v) {
-					candidate := v[j:rightEnd]
+				if rightEnd <= len(str) {
+					candidate := str[j:rightEnd]
 					if candidate == "XMAS" {
 						total++
 					}
@@ -34,22 +34,22 @@ func part1(fileData []string) (total int) {
 
 				// Up XMAS
 				if upEnd >= 0 {
-					candidate := fmt.Sprintf("%s%s%s%s", string(fileData[i][j]), string(fileData[i-1][j]), string(fileData[i-2][j]), string(fileData[i-3][j]))
+					candidate := fmt.Sprintf("%c%c%c%c", fileData[i][j], fileData[i-1][j], fileData[i-2][j], fileData[i-3][j])
 					if candidate == "XMAS" {
 						total++
 					}
 
 					// Diagonal Left
 					if leftEnd >= 0 {
-						candidate := fmt.Sprintf("%s%s%s%s", string(fileData[i][j]), string(fileData[i-1][j-1]), string(fileData[i-2][j-2]), string(fileData[i-3][j-3]))
+						candidate := fmt.Sprintf("%c%c%c%c", fileData[i][j], fileData[i-1][j-1], fileData[i-2][j-2], fileData[i-3][j-3])
 						if candidate == "XMAS" {
 							total++
 						}
 					}
 
 					// Diagonal Right
-					if rightEnd <= len(v) {
-						candidate := fmt.Sprintf("%s%s%s%s", string(fileData[i][j]), string(fileData[i-1][j+1]), string(fileData[i-2][j+2]), string(fileData[i-3][j+3]))
+					if rightEnd <= len(str) {
+						candidate := fmt.Sprintf("%c%c%c%c", fileData[i][j], fileData[i-1][j+1], fileData[i-2][j+2], fileData[i-3][j+3])
 						if candidate == "XMAS" {
 							total++
 						}
@@ -58,22 +58,22 @@ func part1(fileData []string) (total int) {
 
 				// Down XMAS
 				if downEnd < len(fileData) {
-					candidate := fmt.Sprintf("%s%s%s%s", string(fileData[i][j]), string(fileData[i+1][j]), string(fileData[i+2][j]), string(fileData[i+3][j]))
+					candidate := fmt.Sprintf("%c%c%c%c", fileData[i][j], fileData[i+1][j], fileData[i+2][j], fileData[i+3][j])
 					if candidate == "XMAS" {
 						total++
 					}
 
 					// Diagonal Left
 					if leftEnd >= 0 {
-						candidate := fmt.Sprintf("%s%s%s%s", string(fileData[i][j]), string(fileData[i+1][j-1]), string(fileData[i+2][j-2]), string(fileData[i+3][j-3]))
+						candidate := fmt.Sprintf("%c%c%c%c", fileData[i][j], fileData[i+1][j-1], fileData[i+2][j-2], fileData[i+3][j-3])
 						if candidate == "XMAS" {
 							total++
 						}
 					}
 
 					// Diagonal Right
-					if rightEnd <= len(v) {
-						candidate := fmt.Sprintf("%s%s%s%s", string(fileData[i][j]), string(fileData[i+1][j+1]), string(fileData[i+2][j+2]), string(fileData[i+3][j+3]))
+					if rightEnd <= len(str) {
+						candidate := fmt.Sprintf("%c%c%c%c", fileData[i][j], fileData[i+1][j+1], fileData[i+2][j+2], fileData[i+3][j+3])
 						if candidate == "XMAS" {
 							total++
 						}
