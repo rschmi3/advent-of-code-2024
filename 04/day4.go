@@ -86,6 +86,33 @@ func part1(fileData []string) (total int) {
 	return
 }
 
+func part2(fileData []string) (total int) {
+
+	for i, str := range fileData {
+		for j, letter := range str {
+			if letter == 'A' {
+				leftEnd := j - 1
+				rightEnd := j + 1
+				upEnd := i - 1
+				downEnd := i + 1
+
+				if upEnd >= 0 && downEnd < len(fileData) && leftEnd >= 0 && rightEnd < len(str) {
+					downRight := fmt.Sprintf("%c%c%c", fileData[upEnd][leftEnd], fileData[i][j], fileData[downEnd][rightEnd])
+					downLeft := fmt.Sprintf("%c%c%c", fileData[upEnd][rightEnd], fileData[i][j], fileData[downEnd][leftEnd])
+					upRight := fmt.Sprintf("%c%c%c", fileData[downEnd][leftEnd], fileData[i][j], fileData[upEnd][rightEnd])
+					upLeft := fmt.Sprintf("%c%c%c", fileData[downEnd][rightEnd], fileData[i][j], fileData[upEnd][leftEnd])
+
+					if (downRight == "MAS" || upLeft == "MAS") && (downLeft == "MAS" || upRight == "MAS") {
+						total++
+					}
+				}
+
+			}
+		}
+	}
+	return
+}
+
 func Run(file fs.File) {
 
 	scanner := bufio.NewScanner(file)
@@ -96,6 +123,7 @@ func Run(file fs.File) {
 	}
 
 	part1 := part1(fileData)
+	part2 := part2(fileData)
 
-	fmt.Println(fmt.Sprintf("Day 2 Results: %d", part1))
+	fmt.Println(fmt.Sprintf("Day 2 Results: %d, %d", part1, part2))
 }
