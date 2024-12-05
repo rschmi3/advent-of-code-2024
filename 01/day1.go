@@ -15,7 +15,7 @@ func Insert[T cmp.Ordered](ts []T, t T) []T {
 	return slices.Insert(ts, i, t)
 }
 
-func ReadData(scanner bufio.Scanner) ([]int, []int, error) {
+func ReadData(scanner bufio.Scanner) ([]int, []int) {
 
 	var leftList []int
 	var rightList []int
@@ -31,7 +31,7 @@ func ReadData(scanner bufio.Scanner) ([]int, []int, error) {
 		rightList = Insert(rightList, rightInt)
 	}
 
-	return leftList, rightList, nil
+	return leftList, rightList
 }
 func part1(leftList []int, rightList []int) int {
 
@@ -78,11 +78,7 @@ func Run(file fs.File) {
 
 	scanner := bufio.NewScanner(file)
 
-	leftList, rightList, err := ReadData(*scanner)
-
-	if err != nil {
-		return
-	}
+	leftList, rightList := ReadData(*scanner)
 
 	part1 := part1(leftList, rightList)
 
