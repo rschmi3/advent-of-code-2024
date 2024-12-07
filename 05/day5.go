@@ -50,7 +50,7 @@ func part1(updates [][]int) (total int) {
 	return
 }
 
-func part2(fileData []string) (total int) {
+func part2(updates [][]int) (total int) {
 	return
 }
 
@@ -72,24 +72,37 @@ func generateRules(scanner *bufio.Scanner) (rules ruleSet) {
 	return
 }
 
-func filterUpdates(scanner *bufio.Scanner, rules ruleSet) (updates [][]int) {
+func generateUpdates(scanner *bufio.Scanner) (updates [][]int) {
 
-outer:
 	for scanner.Scan() {
 		line := strings.Split(scanner.Text(), ",")
 		update := make([]int, len(line))
-		notAllowed := Set[int]{make(map[int]struct{})}
 
 		for i, v := range line {
 			num, _ := strconv.Atoi(v)
-			if notAllowed.Contains(num) {
-				continue outer
-			}
-			notAllowed = notAllowed.Union(rules[num])
 			update[i] = num
 		}
 
 		updates = append(updates, update)
+	}
+	return
+}
+
+func filterUpdates(updates [][]int, rules ruleSet) (validUpdates [][]int, invalidUpdates [][]int) {
+
+outer:
+	for _, update := range updates {
+
+		notAllowed := Set[int]{make(map[int]struct{})}
+		for _, num := range update {
+
+			if notAllowed.Contains(num) {
+				invalidUpdates = append(invalidUpdates, update)
+				continue outer
+			}
+			notAllowed = notAllowed.Union(rules[num])
+		}
+		validUpdates = append(validUpdates, update)
 	}
 
 	return
@@ -100,10 +113,11 @@ func Run(file fs.File) {
 	scanner := bufio.NewScanner(file)
 
 	rules := generateRules(scanner)
-	updates := filterUpdates(scanner, rules)
+	updates := generateUpdates(scanner)
+	validUpdates, invalidUpdates := filterUpdates(updates, rules)
 
-	part1 := part1(updates)
-	part2 := part2(nil)
+	part1 := part1(validUpdates)
+	part2 := part2(invalidUpdates)
 
 	fmt.Println(fmt.Sprintf("Day 5 Results: %d, %d", part1, part2))
 }
