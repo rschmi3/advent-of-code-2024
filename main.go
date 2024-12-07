@@ -5,6 +5,7 @@ import (
 	day2 "advent-of-code/02"
 	day3 "advent-of-code/03"
 	day4 "advent-of-code/04"
+	day5 "advent-of-code/05"
 	"embed"
 	_ "embed"
 	"fmt"
@@ -50,4 +51,13 @@ func main() {
 	defer day4Data.Close()
 
 	day4.Run(day4Data)
+
+	day5Data, err := inputs.Open("data/05.txt")
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+	defer day5Data.Close()
+
+	day5.Run(day5Data)
 }
