@@ -125,5 +125,5 @@ func Run(file fs.File) {
 	part1 := part1(fileData)
 	part2 := part2(fileData)
 
-	fmt.Println(fmt.Sprintf("Day 2 Results: %d, %d", part1, part2))
+	fmt.Println(fmt.Sprintf("Day 4 Results: %d, %d", part1, part2))
 }
