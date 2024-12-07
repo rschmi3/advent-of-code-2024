@@ -9,55 +9,31 @@ import (
 	"embed"
 	_ "embed"
 	"fmt"
+	"io/fs"
 )
 
 //go:embed data/*
 var inputs embed.FS
 
+type runFunc func(file fs.File)
+
+func runDay(filename string, fn runFunc) {
+
+	dayData, err := inputs.Open(fmt.Sprintf("data/%s", filename))
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+	defer dayData.Close()
+
+	fn(dayData)
+}
+
 func main() {
 
-	day1Data, err := inputs.Open("data/01.txt")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-	defer day1Data.Close()
-
-	day1.Run(day1Data)
-
-	day2Data, err := inputs.Open("data/02.txt")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-	defer day2Data.Close()
-
-	day2.Run(day2Data)
-
-	day3Data, err := inputs.Open("data/03.txt")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-	defer day3Data.Close()
-
-	day3.Run(day3Data)
-
-	day4Data, err := inputs.Open("data/04.txt")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-	defer day4Data.Close()
-
-	day4.Run(day4Data)
-
-	day5Data, err := inputs.Open("data/05.txt")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-	defer day5Data.Close()
-
-	day5.Run(day5Data)
+	runDay("01.txt", day1.Run)
+	runDay("02.txt", day2.Run)
+	runDay("03.txt", day3.Run)
+	runDay("04.txt", day4.Run)
+	runDay("05.txt", day5.Run)
 }
