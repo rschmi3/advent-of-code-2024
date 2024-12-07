@@ -14,6 +14,11 @@ type Set[T comparable] struct {
 
 type ruleSet = map[int]Set[int]
 
+// Create new set of type T
+func NewSet[T comparable]() Set[T] {
+	return Set[T]{elements: make(map[T]struct{})}
+}
+
 // Add inserts an element into the set
 func (s Set[T]) Add(value T) {
 	s.elements[value] = struct{}{}
@@ -62,10 +67,9 @@ func generateRules(scanner *bufio.Scanner) (rules ruleSet) {
 		line := scanner.Text()
 		num1, _ := strconv.Atoi(line[0:strings.Index(line, "|")])
 		num2, _ := strconv.Atoi(line[strings.Index(line, "|")+1:])
-		// _, num1Found := rules[num1]
 		_, num2Found := rules[num2]
 		if !num2Found {
-			rules[num2] = Set[int]{make(map[int]struct{})}
+			rules[num2] = NewSet[int]()
 		}
 		rules[num2].Add(num1)
 	}
@@ -93,7 +97,7 @@ func filterUpdates(updates [][]int, rules ruleSet) (validUpdates [][]int, invali
 outer:
 	for _, update := range updates {
 
-		notAllowed := Set[int]{make(map[int]struct{})}
+		notAllowed := NewSet[int]()
 		for _, num := range update {
 
 			if notAllowed.Contains(num) {
