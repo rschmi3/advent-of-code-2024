@@ -55,7 +55,24 @@ func part1(updates [][]int) (total int) {
 	return
 }
 
-func part2(updates [][]int) (total int) {
+func part2(updates [][]int, rules ruleSet) (total int) {
+	for _, update := range updates {
+
+		for i := range update {
+			for j := len(update) - 1; j > i; j-- {
+				rule, ok := rules[update[i]]
+				if ok && rule.Contains(update[j]) {
+					temp := update[i]
+					update[i] = update[j]
+					update[j] = temp
+				}
+			}
+
+		}
+
+		middle := (len(update) / 2)
+		total += update[middle]
+	}
 	return
 }
 
@@ -121,7 +138,7 @@ func Run(file fs.File) {
 	validUpdates, invalidUpdates := filterUpdates(updates, rules)
 
 	part1 := part1(validUpdates)
-	part2 := part2(invalidUpdates)
+	part2 := part2(invalidUpdates, rules)
 
 	fmt.Println(fmt.Sprintf("Day 5 Results: %d, %d", part1, part2))
 }
