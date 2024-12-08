@@ -6,6 +6,7 @@ import (
 	day3 "advent-of-code/03"
 	day4 "advent-of-code/04"
 	day5 "advent-of-code/05"
+	day6 "advent-of-code/06"
 	"embed"
 	_ "embed"
 	"fmt"
@@ -36,4 +37,5 @@ func main() {
 	runDay("03.txt", day3.Run)
 	runDay("04.txt", day4.Run)
 	runDay("05.txt", day5.Run)
+	runDay("06.txt", day6.Run)
 }
